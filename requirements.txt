@@ -11,13 +11,13 @@ Flask==3.0.0
 Werkzeug==3.0.1
 
 # Data Processing & Analysis
-# Using pandas 2.2.0+ for Python 3.13 support
+# Using latest pandas and numpy compatible with Python 3.13
 pandas>=2.2.0
-numpy>=1.26.2
+numpy>=1.26.4
 
 # Database ORM & SQLite Driver
-# Using SQLAlchemy 2.1.0+ for full Python 3.13 compatibility
-SQLAlchemy>=2.1.0
+# Using latest 2.0.x SQLAlchemy (2.1.0 not yet released)
+SQLAlchemy==2.0.45
 
 # API Requests
 requests==2.31.0
@@ -31,5 +31,6 @@ pytz==2023.3
 
 # Production deployment
 gunicorn==21.2.0
+
 
 
