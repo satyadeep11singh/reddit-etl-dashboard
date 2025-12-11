@@ -62,7 +62,7 @@ def load_data(df: pd.DataFrame) -> None:
         df (pd.DataFrame): DataFrame to load into database
     """
     # Create SQLAlchemy engine for SQLite database connection
-    engine = create_engine('sqlite:///universities.db')
+    engine = create_engine('sqlite:///posts.db')
     
     # Write DataFrame to 'universities' table, replacing existing data
     df.to_sql('universities', engine, if_exists='replace', index=False)
