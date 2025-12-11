@@ -13,7 +13,7 @@ from plotly.subplots import make_subplots
 
 # ===== EXTRACT DATA FROM DATABASE =====
 # Connect to SQLite database containing Reddit posts
-conn = sqlite3.connect('universities.db')
+conn = sqlite3.connect('posts.db')
 
 # Query the top 10 posts with relevant columns
 # SUBSTR() truncates title to first 50 characters
@@ -28,7 +28,7 @@ SELECT
   ups,
   subreddit_name_prefixed,
   datetime(created_utc, 'unixepoch') AS date
-FROM universities
+FROM posts
 ORDER BY score DESC
 LIMIT 10
 """, conn)

@@ -1,5 +1,5 @@
 # Database files
-universities.db
+posts.db
 *.db
 *.sqlite
 

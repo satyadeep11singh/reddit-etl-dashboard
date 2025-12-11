@@ -30,7 +30,7 @@ reddit-etl-dashboard/
 ├── interactive_report.py       # Generate interactive Plotly charts
 ├── index.html                  # Web dashboard interface
 ├── subreddits.json            # Cached list of popular subreddits
-├── universities.db            # SQLite database (auto-created)
+├── posts.db            # SQLite database (auto-created)
 └── README.md                  # This file
 ```
 
@@ -88,7 +88,7 @@ reddit-etl-dashboard/
 - Removes duplicates
 
 ### 3. **Load** (etl.py)
-- Stores data in SQLite database (universities.db)
+- Stores data in SQLite database (posts.db)
 - Replaces existing data with fresh data
 - Enables quick access for reporting
 

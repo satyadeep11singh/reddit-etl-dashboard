@@ -64,8 +64,8 @@ def load_data(df: pd.DataFrame) -> None:
     # Create SQLAlchemy engine for SQLite database connection
     engine = create_engine('sqlite:///posts.db')
     
-    # Write DataFrame to 'universities' table, replacing existing data
-    df.to_sql('universities', engine, if_exists='replace', index=False)
+    # Write DataFrame to 'posts' table, replacing existing data
+    df.to_sql('posts', engine, if_exists='replace', index=False)
 
 if __name__ == "__main__":
     # Get subreddit name from command line argument (default: 'r/India')
