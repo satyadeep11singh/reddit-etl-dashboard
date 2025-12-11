@@ -74,6 +74,9 @@ reddit-etl-dashboard/
 
 ## 📖 How It Works
 
+<img width="1024" height="559" alt="image" src="https://github.com/user-attachments/assets/1f009521-9786-4c5d-83b6-b2e61a8f5e5b" />
+
+
 ### 1. **Extract** (subreddit.py & etl.py)
 - Fetches top 100 posts from the past year
 - Uses Reddit's public JSON API
