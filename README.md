@@ -2,6 +2,12 @@
 
 A complete **Extract-Transform-Load (ETL) pipeline** with an interactive web dashboard to fetch Reddit posts, analyze them, and visualize data with beautiful interactive charts.
 
+## 🚀 Try It Now!
+
+**Live Demo**: [https://reddit-etl-dashboard.onrender.com/](https://reddit-etl-dashboard.onrender.com/)
+
+No installation needed - just visit the link and start exploring!
+
 ## 🌟 Features
 
 - **🌐 Web Dashboard**: User-friendly interface to control the entire pipeline
@@ -97,6 +103,8 @@ reddit-etl-dashboard/
 3. **Run ETL**: Fetch latest posts from selected subreddit
 4. **Generate Report**: Create interactive visualization
 5. **View Charts**: Click titles to open posts on Reddit
+
+⚠️ **Important**: When you click "Generate Report", your browser may block the popup window. **Allow popups** in your browser to view the interactive report. Check for popup notifications in your browser's address bar.
 
 ### From Terminal
 ```bash
