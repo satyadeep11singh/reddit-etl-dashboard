@@ -16,7 +16,8 @@ pandas>=2.2.0
 numpy>=1.26.2
 
 # Database ORM & SQLite Driver
-SQLAlchemy==2.0.23
+# Using SQLAlchemy 2.1.0+ for full Python 3.13 compatibility
+SQLAlchemy>=2.1.0
 
 # API Requests
 requests==2.31.0
