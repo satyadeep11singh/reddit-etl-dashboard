@@ -50,6 +50,14 @@
         .info {
             color: #0066cc;
         }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        button:disabled:hover {
+            background-color: #cccccc;
+        }
     </style>
 </head>
 <body>
@@ -76,7 +84,7 @@
             <div id="selectedSubreddit" style="margin-top: 10px; font-weight: bold; color: #0066cc;"></div>
         </div>
         <button onclick="runETL()">Run ETL</button>
-        <button onclick="runReport()">Generate Report</button>
+        <button id="reportButton" onclick="runReport()" disabled>Generate Report</button>
     </div>
     
     <div id="status"></div>
@@ -156,6 +164,8 @@
                 
                 if (response.ok) {
                     statusDiv.innerHTML = '<span class="success">✅ ETL completed successfully!</span>';
+                    // Enable the Generate Report button after successful ETL
+                    document.getElementById('reportButton').disabled = false;
                 } else {
                     statusDiv.innerHTML = '<span class="error">❌ Error: ' + data.error + '</span>';
                 }
