@@ -176,8 +176,11 @@
                 const data = await response.json();
                 
                 if (response.ok) {
-                    statusDiv.innerHTML = '<span class="success">✅ Report generated! Opening...</span>';
-                    window.open('interactive_report.html', '_blank');
+                    statusDiv.innerHTML = '<span class="success">✅ Report generated! Redirecting...</span>';
+                    // Redirect to report page instead of opening new tab (works on Safari/iPhone)
+                    setTimeout(() => {
+                        window.location.href = `${apiBaseUrl}/interactive_report.html`;
+                    }, 500);
                 } else {
                     statusDiv.innerHTML = '<span class="error">❌ Error: ' + data.error + '</span>';
                 }

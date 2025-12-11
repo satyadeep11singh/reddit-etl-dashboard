@@ -131,14 +131,32 @@ enhanced_html = fig_html.replace(
     .ytick a { color: #0066cc; text-decoration: underline; cursor: pointer; }
     .ytick a:hover { color: #0044aa; }
     h1 { text-align: center; color: #333; font-family: Arial, sans-serif; margin: 20px 0; }
+    .back-button { 
+        display: inline-block; 
+        margin: 20px; 
+        padding: 12px 24px; 
+        background-color: #0066cc; 
+        color: white; 
+        text-decoration: none; 
+        border-radius: 5px; 
+        font-size: 14px; 
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .back-button:hover { background-color: #0044aa; }
+    .header-container { text-align: center; }
     </style>
     </head>'''
 )
 
-# Insert heading with subreddit name at the beginning of the body
+# Insert heading with subreddit name and back button at the beginning of the body
 enhanced_html = enhanced_html.replace(
     '<body>',
-    f'<body><h1>Top 10 Reddit Posts for {subreddit_name}</h1>'
+    f'''<body>
+    <div class="header-container">
+        <a href="/" class="back-button">← Back to Dashboard</a>
+        <h1>Top 10 Reddit Posts for {subreddit_name}</h1>
+    </div>'''
 )
 
 # Write the enhanced HTML to file
