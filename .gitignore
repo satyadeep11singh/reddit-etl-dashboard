@@ -1,0 +1,43 @@
+# Database files
+universities.db
+*.db
+*.sqlite
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Generated files
+interactive_report.html
+subreddits.json
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log

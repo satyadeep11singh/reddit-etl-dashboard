@@ -89,10 +89,13 @@
         let allSubreddits = [];
         let selectedSubreddit = null;
 
+        // Get the API base URL dynamically (works on localhost and deployed on Render)
+        const apiBaseUrl = window.location.origin;
+
         // Load subreddits on page load
         async function loadSubreddits() {
             try {
-                const response = await fetch('http://localhost:5000/get-subreddits');
+                const response = await fetch(`${apiBaseUrl}/get-subreddits`);
                 const subreddits = await response.json();
                 allSubreddits = subreddits;
                 displaySubreddits(subreddits);
@@ -144,7 +147,7 @@
             statusDiv.innerHTML = '<span class="info">⏳ Running ETL...</span>';
             
             try {
-                const response = await fetch('http://localhost:5000/run-etl', {
+                const response = await fetch(`${apiBaseUrl}/run-etl`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ subreddit: selectedSubreddit.name, title: selectedSubreddit.title })
@@ -166,7 +169,7 @@
             statusDiv.innerHTML = '<span class="info">⏳ Generating report...</span>';
             
             try {
-                const response = await fetch('http://localhost:5000/run-report', {
+                const response = await fetch(`${apiBaseUrl}/run-report`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' }
                 });
