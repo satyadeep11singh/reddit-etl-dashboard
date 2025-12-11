@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Reddit Posts ETL Dashboard</title>    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+        }
+        .button-container {
+            margin-top: 30px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #0066cc;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0044aa;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        #status {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 14px;
+            min-height: 20px;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+        .info {
+            color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <h1>📊 ETL Dashboard</h1>
+    <p>Dashboard for Extracting, Transforming, and Loading Reddit Posts from Reddit</p>
+    <div class="button-container">
+        <div style="margin-bottom: 20px;">
+            <label for="subredditSearch" style="display: block; margin-bottom: 8px; font-weight: bold;">Select Subreddit:</label>
+            <input 
+                type="text" 
+                id="subredditSearch" 
+                placeholder="Search subreddits..." 
+                onkeyup="filterSubreddits()"
+                style="width: 100%; padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; margin-bottom: 10px;"
+            >
+            <div id="subredditDropdown" style="
+                max-height: 200px; 
+                overflow-y: auto; 
+                border: 1px solid #ccc; 
+                border-radius: 5px; 
+                background-color: white;
+                display: none;
+            "></div>
+            <div id="selectedSubreddit" style="margin-top: 10px; font-weight: bold; color: #0066cc;"></div>
+        </div>
+        <button onclick="runETL()">Run ETL</button>
+        <button onclick="runReport()">Generate Report</button>
+    </div>
+    
+    <div id="status"></div>
+
+    <p>Step 1: Select/Search a subreddit from the top 100 subreddits list.</p>
+    <p>Step 2: Click "Run ETL" to extract top 100 posts from the selected subreddit.</p>
+    <p>Step 3: Click "Generate Report" to create an interactive visualization of the top 10 posts.</p>
+
+    <script>
+        let allSubreddits = [];
+        let selectedSubreddit = null;
+
+        // Load subreddits on page load
+        async function loadSubreddits() {
+            try {
+                const response = await fetch('http://localhost:5000/get-subreddits');
+                const subreddits = await response.json();
+                allSubreddits = subreddits;
+                displaySubreddits(subreddits);
+            } catch (error) {
+                console.error('Error loading subreddits:', error);
+            }
+        }
+
+        function displaySubreddits(subreddits) {
+            const dropdown = document.getElementById('subredditDropdown');
+            dropdown.innerHTML = '';
+            dropdown.style.display = subreddits.length > 0 ? 'block' : 'none';
+            
+            subreddits.forEach(sub => {
+                const div = document.createElement('div');
+                div.style.cssText = 'padding: 10px; border-bottom: 1px solid #eee; cursor: pointer; hover: background-color: #f0f0f0;';
+                div.innerHTML = `<strong>${sub.name}</strong><br><small>${sub.title}</small><br><small>${sub.subscribers.toLocaleString()} subscribers</small>`;
+                div.onclick = () => selectSubreddit(sub.name, sub);
+                div.onmouseover = () => div.style.backgroundColor = '#f0f0f0';
+                div.onmouseout = () => div.style.backgroundColor = 'white';
+                dropdown.appendChild(div);
+            });
+        }
+
+        function filterSubreddits() {
+            const searchInput = document.getElementById('subredditSearch').value.toLowerCase();
+            const filtered = allSubreddits.filter(sub => 
+                sub.name.toLowerCase().includes(searchInput) || 
+                sub.title.toLowerCase().includes(searchInput)
+            );
+            displaySubreddits(filtered);
+        }
+
+        function selectSubreddit(name, sub) {
+            selectedSubreddit = { name: name, title: sub.title };
+            document.getElementById('subredditSearch').value = name;
+            document.getElementById('subredditDropdown').style.display = 'none';
+            document.getElementById('selectedSubreddit').innerHTML = `Selected: <span style="color: green;">${name}</span><br><small>${sub.title}</small>`;
+        }
+
+        async function runETL() {
+            if (!selectedSubreddit) {
+                const statusDiv = document.getElementById('status');
+                statusDiv.innerHTML = '<span class="error">❌ Please select a subreddit first!</span>';
+                return;
+            }
+            
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = '<span class="info">⏳ Running ETL...</span>';
+            
+            try {
+                const response = await fetch('http://localhost:5000/run-etl', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ subreddit: selectedSubreddit.name, title: selectedSubreddit.title })
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    statusDiv.innerHTML = '<span class="success">✅ ETL completed successfully!</span>';
+                } else {
+                    statusDiv.innerHTML = '<span class="error">❌ Error: ' + data.error + '</span>';
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '<span class="error">❌ Error: ' + error.message + '</span>';
+            }
+        }
+
+        async function runReport() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = '<span class="info">⏳ Generating report...</span>';
+            
+            try {
+                const response = await fetch('http://localhost:5000/run-report', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    statusDiv.innerHTML = '<span class="success">✅ Report generated! Opening...</span>';
+                    window.open('interactive_report.html', '_blank');
+                } else {
+                    statusDiv.innerHTML = '<span class="error">❌ Error: ' + data.error + '</span>';
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '<span class="error">❌ Error: ' + error.message + '</span>';
+            }
+        }
+
+        // Load subreddits when page loads
+        document.addEventListener('DOMContentLoaded', loadSubreddits);
+    </script>
+</body>
+</html>
