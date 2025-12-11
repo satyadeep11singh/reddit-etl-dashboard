@@ -29,9 +29,9 @@ reddit-etl-dashboard/
 ├── subreddit.py                # Fetch popular subreddits list
 ├── interactive_report.py       # Generate interactive Plotly charts
 ├── index.html                  # Web dashboard interface
-├── subreddits.json            # Cached list of popular subreddits
-├── posts.db            # SQLite database (auto-created)
-└── README.md                  # This file
+├── subreddits.json             # Cached list of popular subreddits
+├── posts.db                    # SQLite database (auto-created)
+└── README.md                   # This file
 ```
 
 ## 🚀 Getting Started
@@ -107,9 +107,9 @@ reddit-etl-dashboard/
 4. **Generate Report**: Create interactive visualization
 5. **View Charts**: Click titles to open posts on Reddit
 
-⚠️ **Important**: When you click "Generate Report", your browser may block the popup window. **Allow popups** in your browser to view the interactive report. Check for popup notifications in your browser's address bar.
+ℹ️ **Note**: The "Generate Report" button is only enabled after you successfully run the ETL. This ensures data is available before generating the report.
 
-### From Terminal
+### Terminal
 ```bash
 # Run ETL for specific subreddit
 python etl.py r/India

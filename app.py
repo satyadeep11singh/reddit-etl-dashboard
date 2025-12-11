@@ -50,8 +50,7 @@ def get_subreddits():
     """
     try:
         # Run subreddit.py to fetch the latest subreddit list from Reddit API
-        # Use python3 for compatibility with Render and most Unix systems
-        result = subprocess.run(['python3', 'subreddit.py'], capture_output=True, text=True, timeout=30)
+        result = subprocess.run(['python', 'subreddit.py'], capture_output=True, text=True, timeout=30)
         
         # Load the cached subreddits from the JSON file that subreddit.py creates
         if os.path.exists('subreddits.json'):
@@ -91,8 +90,7 @@ def run_etl():
         title = data.get('title', '') if data else ''
         
         # Execute etl.py as a subprocess, passing subreddit name and title as arguments
-        # Use python3 for compatibility with Render and most Unix systems
-        result = subprocess.run(['python3', 'etl.py', subreddit, title], capture_output=True, text=True, timeout=60)
+        result = subprocess.run(['python', 'etl.py', subreddit, title], capture_output=True, text=True, timeout=60)
         
         # Check if subprocess executed successfully (return code 0 = success)
         if result.returncode == 0:
@@ -121,8 +119,7 @@ def run_report():
     """
     try:
         # Execute interactive_report.py as a subprocess
-        # Use python3 for compatibility with Render and most Unix systems
-        result = subprocess.run(['python3', 'interactive_report.py'], capture_output=True, text=True, timeout=60)
+        result = subprocess.run(['python', 'interactive_report.py'], capture_output=True, text=True, timeout=60)
         
         # Check if subprocess executed successfully
         if result.returncode == 0:
